@@ -7,18 +7,43 @@ namespace csharp_web_dev_lsn9exceptions
     {
         static double Divide(double x, double y)
         {
-            // Write your code here!
+            if (y == 0)
+            {
+                throw new ArgumentOutOfRangeException("Cannot divide by zero.");
+            }
+            else
+            {
+                return x / y;
+            }            
         }
 
+        
         static int CheckFileExtension(string fileName)
         {
-            // Write your code here!
+            int points = 0;
+            if (fileName.EndsWith(".cs"))
+            {
+                points += 1;
+            }
+            else if(fileName == null || fileName == "")
+            {
+                throw new ArgumentNullException("Filename cannot be 'null' or empty.");
+            }
+            return points;
         }
+        
 
 
         static void Main(string[] args)
         {
-            // Test out your Divide() function here!
+            try
+            {
+                Divide(5, 0);
+            }
+            catch(ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("Cannot divide by zero.");
+            }
 
             // Test out your CheckFileExtension() function here!
             Dictionary<string, string> students = new Dictionary<string, string>();
@@ -26,6 +51,19 @@ namespace csharp_web_dev_lsn9exceptions
             students.Add("Brad", "");
             students.Add("Elizabeth", "MyCode.cs");
             students.Add("Stefanie", "CoolProgram.cs");
+            
+            foreach (KeyValuePair<string, string> student in students)
+            {
+                try
+                {
+                    CheckFileExtension(student.Value);
+                    Console.WriteLine(student.Key + "'s points added.");
+                }
+                catch(ArgumentNullException)
+                {
+                    Console.WriteLine("Null exception caught.");
+                }
+            }
 
 
         }
